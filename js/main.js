@@ -16,6 +16,7 @@ while (numberToGuess.length < level) {
     }
 }
 
+console.log(numberToGuess);
 document.getElementById("numberToGuess").innerHTML = numberToGuess;
 
 // FACCIO PARTIRE UN TIMER DA 30 SEC. ALLA FINE DEL QUALE SCOMPAIONO I NUMERI DA INDOVINARE E MI CHIEDE DI INSERIRLI
@@ -28,12 +29,41 @@ function timer() {
     document.getElementById("timer").innerHTML = secondi;
     if (secondi == 0) {
         clearInterval(idInterval);
-        document.getElementById("timer").innerHTML = "INSERISCI I 5 NUMERI COMPARSI NEGLI ALERT";
+        document.getElementById("timer").innerHTML = "INSERISCI I 5 NUMERI CHE HAI VISTO PRECEDENTEMENTE";
         document.getElementById("numberToGuess").innerHTML = "";
     }
     secondi--;
 }
 
+// CHIEDO DI INSERIRE I NUMERI COMPARSI PRIMA
+
+let userNumbersContainer = [];
+setTimeout (waitSevenSec, 7000);
+setTimeout (waitEightSec, 8000);
+
+function waitSevenSec() {
+    while (userNumbersContainer.length < level) {
+        let userNumber = parseInt(prompt("Inserisci i numeri"));
+        if (userNumbersContainer.includes(userNumber) == false) {
+            userNumbersContainer.push(userNumber);
+        }
+    }
+}
+
+// SE I NUMERI INSERITI SI TROVANO TRA I NUMERI COMPARSI PRIMA LI MOSTRO
+
+let matchedNumber = [];
+
+function waitEightSec() {
+    for (let i=0; i < level; i++){
+        if (isInArray(numberToGuess, userNumbersContainer[i]) == true) {
+            matchedNumber.push(userNumbersContainer[i]);
+        }
+    }
+    document.getElementById("numberToGuess").innerHTML = "Numeri da indovinare: " + numberToGuess;
+    document.getElementById("timer").innerHTML = " ";
+    document.getElementById("matchedNumber").innerHTML = "Numeri indovinati: " + matchedNumber;
+}
 
 
 /* FUNZIONI */
@@ -41,4 +71,15 @@ function timer() {
 function getRndNumber(min, max) {
     randomNumber = Math.floor(Math.random() * (max - min + 1) ) + min;
     return randomNumber;
+}
+
+function isInArray (contenitore, numero) {
+    let find = false;
+    for (let i = 0; i < contenitore.length; i++) {
+        if (contenitore[i] == numero) {
+            find = true;
+            return find;
+        }
+    }
+    return find;
 }
