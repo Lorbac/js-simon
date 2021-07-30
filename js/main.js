@@ -39,7 +39,6 @@ function timer() {
 
 let userNumbersContainer = [];
 setTimeout (waitSevenSec, 7000);
-setTimeout (waitEightSec, 8000);
 
 function waitSevenSec() {
     while (userNumbersContainer.length < level) {
@@ -48,38 +47,25 @@ function waitSevenSec() {
             userNumbersContainer.push(userNumber);
         }
     }
-}
 
 // SE I NUMERI INSERITI SI TROVANO TRA I NUMERI COMPARSI PRIMA LI MOSTRO
+    
+    let matchedNumber = [];
 
-let matchedNumber = [];
-
-function waitEightSec() {
     for (let i=0; i < level; i++){
-        if (isInArray(numberToGuess, userNumbersContainer[i]) == true) {
+        if (numberToGuess.includes(userNumbersContainer[i]) == true) {
             matchedNumber.push(userNumbersContainer[i]);
         }
     }
     document.getElementById("numberToGuess").innerHTML = "Numeri da indovinare: " + numberToGuess;
     document.getElementById("timer").innerHTML = " ";
     document.getElementById("matchedNumber").innerHTML = "Numeri indovinati: " + matchedNumber;
+    document.getElementById("score").innerHTML = "Il tuo punteggio è: " + matchedNumber.length;
 }
-
 
 /* FUNZIONI */
 
 function getRndNumber(min, max) {
     randomNumber = Math.floor(Math.random() * (max - min + 1) ) + min;
     return randomNumber;
-}
-
-function isInArray (contenitore, numero) {
-    let find = false;
-    for (let i = 0; i < contenitore.length; i++) {
-        if (contenitore[i] == numero) {
-            find = true;
-            return find;
-        }
-    }
-    return find;
 }
